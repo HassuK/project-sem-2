@@ -116,12 +116,12 @@ int main()
 
 				if (TileMap.TileMap[i][j] == 'B')
 				{
-					tile.setTextureRect((sf::IntRect(0, 80, 32, 32)));
+					tile.setTextureRect((sf::IntRect(32, 0, 32, 32)));
 				}
 
 				if (TileMap.TileMap[i][j] == '0')
 				{
-					tile.setTextureRect((sf::IntRect(240, 80, 32, 32)));
+					tile.setTextureRect((sf::IntRect(64, 0, 32, 32)));
 				}
 
 

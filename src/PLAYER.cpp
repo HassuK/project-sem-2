@@ -38,11 +38,11 @@ namespace my {
 				currentFrame -= 6;
 			}
 			if (m_x > 0) {
-				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame), 244, 40, 50));
+				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame), 50, 40, 50));
 			}
 
 			if (m_x < 0) {
-				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame) + 40, 244, -40, 50));
+				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame) + 40, 50, -40, 50));
 			}
 			f = false;
 		}
@@ -53,10 +53,10 @@ namespace my {
 				currentFrame -= 3;
 			}
 			if (direction) {
-				m_sprite.setTextureRect(sf::IntRect(44 * int(currentFrame), 190, 40, 50));
+				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame), 0, 40, 50));
 			}
 			if (!direction) {
-				m_sprite.setTextureRect(sf::IntRect(44 * int(currentFrame) + 44, 190, -40, 50));
+				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame) + 40, 0, -40, 50));
 			}
 		}
 
