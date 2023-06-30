@@ -71,9 +71,9 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(600, 400), "Let's play!");
 
 	sf::Texture t;
-	if (!(t.loadFromFile("assets/fang.png"))) 
+	if (!(t.loadFromFile("assets/steve.png"))) 
 	{
-		t.loadFromFile("../assets/fang.png");
+		t.loadFromFile("../assets/steve.png");
 	}
 	
 
@@ -83,9 +83,9 @@ int main()
 		tileSet.loadFromFile("../assets/blocks.png");
 	}
 	sf::Texture enemyTexture;
-	if (!(enemyTexture.loadFromFile("assets/mario.png")))
+	if (!(enemyTexture.loadFromFile("assets/slime.png")))
 	{
-		enemyTexture.loadFromFile("../assets/mario.png");
+		enemyTexture.loadFromFile("../assets/slime.png");
 	}
 
 
