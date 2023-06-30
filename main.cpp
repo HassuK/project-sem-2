@@ -3,6 +3,7 @@
 #include <PLAYER.hpp>
 #include <MAP.hpp>
 #include <Enemy.h>
+#include <iostream>
 
 
 int main()
@@ -12,16 +13,16 @@ int main()
 		"0                                                                                                                                                    0",
 		"0                P	                                                                  w                                                               0",
 		"0                P  w                                  w                   w                                                                         0",
-		"0                P                     w                                       kk                                                                    0",
-		"0                P                                                            k  k    k    k                                                         0",
-		"0                P     c                                                      k      kkk  kkk  w                                                     0",
-		"0                P                                                      r     k       k    k                                                         0",
+		"0  P             P                     w                                       kk                                                                    0",
+		"0  P             P                                                            k  k    k    k                                                         0",
+		"0  P             P     c                                                      k      kkk  kkk  w                                                     0",
+		"0  P             P                                                      r     k       k    k                                                         0",
 		"0                P                                                     rr     k  k                                                                   0",
 		"0                P                                                    rrr      kk                                                                    0",
 		"0               cP   kckck                                           rrrr                                                                            0",
-		"0                P                      t0                           rrrrr                                                                            0",
-		"0G                                     00              t0          rrrrrr            G                                                               0",
-		"0           d    g       d             00              00         rrrrrrr                                                                            0",
+		"0                P                      t0                           rrrrr                                                                           0",
+		"0P               P                    00              t0          rrrrrr            G                                                                0",
+		"0           d    P       d             00              00         rrrrrrr                                                                            0",
 		"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
 		"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
 		"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
@@ -31,7 +32,7 @@ int main()
 
 	int stayflag = 0;
 
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Test!");
+	sf::RenderWindow window(sf::VideoMode(800, 800), "Test!");
 
 	sf::Texture t;
 	if (!(t.loadFromFile("assets/fang.png"))) 
@@ -57,9 +58,9 @@ int main()
 	sf::Sprite tile(tileSet);
 	my::PLAYER p(t, TileMap);
 
-	other::ENEMY enemy(enemyTexture, TileMap);
-	enemy.set(enemyTexture, 150, 200);
-
+	other::ENEMY enemy(enemyTexture, TileMap, 24*16, 24*16);
+//	enemy.set(enemyTexture, 3, 10);
+	 
 
 	sf::Clock clock;
 
@@ -122,16 +123,17 @@ int main()
 					p.setY(-0.2);
 					enemy.setLife(false);
 				}
-				else p.getSprite().setColor(sf::Color::Red);
+				else p.getSprite().setColor(sf::Color::Blue);
 			}
 		}
 
-
-		if (p.getRectLeft() > 300)
+		if (p.getRectLeft() > 200)
 		{
-			p.setOffsetX(p.getRectLeft() - 300);
+			p.setOffsetX(p.getRectLeft() - 200);
+			enemy.setOffsetX(p.getRectLeft() - 200);
 		}
 		p.setOffsetY(p.getRectTop() - 200);
+		enemy.setOffsetY(p.getRectTop() - 200);
 
 		window.clear(sf::Color(200, 140, 255));
 

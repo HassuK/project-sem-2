@@ -8,7 +8,7 @@
 namespace my {
 	class PLAYER {
 
-	protected:
+	private:
 		float m_x, m_y;
 		sf::FloatRect m_rect;
 		sf::Sprite m_sprite;
@@ -42,15 +42,15 @@ namespace my {
 			return m_offsety;
 		}
 
-		virtual	void setX(float dx) {
+		void setX(float dx) {
 			m_x = dx;
 		}
 
-		virtual void setY(float dy) {
+		void setY(float dy) {
 			m_y = dy;
 		}
 
-		virtual void update(float time);
+		void update(float time);
 		
 
 		double getRectLeft() {
@@ -61,26 +61,26 @@ namespace my {
 			return m_rect.top;
 		}
 
-		virtual float getX() {
+		float getX() {
 			return m_x;
 		}
 
-		virtual float getY() {
+		float getY() {
 			return m_y;
 		}
 
-		virtual void Collision(int dir);
+		void Collision(int dir);
 
 		sf::Sprite getSprite() {
 			return m_sprite;
 		}
 
-		virtual sf::FloatRect getRect() {
+		sf::FloatRect getRect() {
 			return m_rect;
 		}
 		
 
-		virtual ~PLAYER() {};
+		~PLAYER() {};
 	};
 	
 

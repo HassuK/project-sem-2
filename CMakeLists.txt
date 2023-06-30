@@ -22,7 +22,8 @@ add_executable("${PROJECT_NAME}" main.cpp
 				"inc/PLAYER.hpp"
 				"inc/Enemy.h"
 				"inc/MAP.hpp"
-				"src/PLAYER.cpp")											
+				"src/PLAYER.cpp"
+				"src/Enemy.cpp")											
 target_link_libraries("${PROJECT_NAME}" 
 					    debug sfml-graphics-s-d 
 						debug sfml-window-s-d

@@ -4,69 +4,54 @@
 
 namespace other {
 
-	class ENEMY : public my::PLAYER {
+	class ENEMY {
 
-	protected:
+	private:
+		float m_x, m_y;
+		sf::FloatRect m_rect;
+		sf::Sprite m_sprite;
+		float currentFrame = 0;
+		float m_offsetx = 0, m_offsety = 0;
+		Globals* m_map;
 		bool life;
 
 
 	public:
 
-		ENEMY(sf::Texture& image, Globals& map) {
-			m_sprite.setTexture(image);
-			m_rect = sf::FloatRect(0, 0, 16, 16);
-			m_x = m_y = 0.1;
-			currentFrame = 0;
-			m_map = &map;
-			life = true;
+		ENEMY() = default;
+		
+
+		ENEMY(sf::Texture& image, Globals& map, int x, int y);
+
+		void setOffsetX(float offsetx) {
+			m_offsetx = offsetx;
 		}
 
-		void set(sf::Texture& image,int x, int y) {
-			m_sprite.setTexture(image);
-			m_rect = sf::FloatRect(x, y, 16, 16);
-			m_x = m_y = 0.1;
-			currentFrame = 0;
-			life = true;
+		void setOffsetY(float offsety) {
+			m_offsety = offsety;
 		}
 
-		void update(float time) override
-		{
-			m_rect.left += m_x * time;
-
-			Collision();
-
-			currentFrame += time * 0.005;
-			if (currentFrame > 2) currentFrame -= 2;
-
-			m_sprite.setTextureRect(sf::IntRect(18 * int(currentFrame), 0, 16, 16));
-			if (!life) m_sprite.setTextureRect(sf::IntRect(58, 0, 16, 16));
-
-
-			m_sprite.setPosition(m_rect.left - m_offsetx, m_rect.top - m_offsety);
-
+		float getOffetX() {
+			return m_offsetx;
 		}
 
-
-		void Collision() 
-		{
-
-			for (int i = m_rect.top / 32; i < (m_rect.top + m_rect.height) / 32; i++)
-				for (int j = m_rect.left / 32; j < (m_rect.left + m_rect.width) / 32; j++)
-					if ((m_map->TileMap[i][j] == 'P') || (m_map->TileMap[i][j] == '0'))
-					{
-						if (m_x > 0)
-						{
-							m_rect.left = j * 32  - m_rect.width; m_x *= -1;
-						}
-						else if (m_x < 0)
-						{
-							m_rect.left = j * 32 + 32;  m_x *= -1;
-						}
-
-					}
+		float getOffetY() {
+			return m_offsety;
 		}
 
-		sf::FloatRect getRect() override {
+		double getRectLeft() {
+			return m_rect.left;
+		}
+
+		double getRectTop() {
+			return m_rect.top;
+		}
+
+		void update(float time);
+
+		void Collision();
+
+		sf::FloatRect getRect()  {
 			return m_rect;
 		}
 
@@ -74,29 +59,34 @@ namespace other {
 			return life;
 		}
 
-		float getX() override{
+		float getX() {
 			return m_x;
 		}
 
-		float getY() override {
+		float getY()  {
 			return m_y;
 		}
 
-		void setX(float dx) override {
+		void setX(float dx)  {
 			m_x = dx;
 		}
 
-		void setY(float dy) override {
+		void setY(float dy)  {
 			m_y = dy;
 		}
 
 		void setLife(bool kill) {
 			life = kill;
 		}
+
+		sf::Sprite getSprite() {
+			return m_sprite;
+		}
+
+		~ENEMY() {};
+
+
 	};
-
-
-
 
 
 
