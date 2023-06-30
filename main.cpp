@@ -2,31 +2,36 @@
 #include <SFML/Graphics.hpp>
 #include <PLAYER.hpp>
 #include <MAP.hpp>
+#include <Enemy.h>
 
 
 int main()
 {
 	Globals TileMap = {
-
-	   "B                                      B",
-	   "B                                BBBBBBB",
-	   "B                                0     B",
-	   "B                                0     B",
-	   "B                                0     B",
-	   "B         0000                BBBB     B",
-	   "B                                B     B",
-	   "BBB                              B     B",
-	   "B              BB                BB    B",
-	   "B              BB                      B",
-	   "B    B         BB          BB          B",
-	   "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
+		"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+		"0                                                                                                                                                    0",
+		"0                P	                                                                  w                                                               0",
+		"0                P  w                                  w                   w                                                                         0",
+		"0                P                     w                                       kk                                                                    0",
+		"0                P                                                            k  k    k    k                                                         0",
+		"0                P     c                                                      k      kkk  kkk  w                                                     0",
+		"0                P                                                      r     k       k    k                                                         0",
+		"0                P                                                     rr     k  k                                                                   0",
+		"0                P                                                    rrr      kk                                                                    0",
+		"0               cP   kckck                                           rrrr                                                                            0",
+		"0                P                      t0                           rrrrr                                                                            0",
+		"0G                                     00              t0          rrrrrr            G                                                               0",
+		"0           d    g       d             00              00         rrrrrrr                                                                            0",
+		"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+		"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+		"PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
 
 	};
-	const int W = 40;
+	const int W = 150;
 
 	int stayflag = 0;
 
-	sf::RenderWindow window(sf::VideoMode(600, 400), "Test!");
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Test!");
 
 	sf::Texture t;
 	if (!(t.loadFromFile("assets/fang.png"))) 
@@ -36,15 +41,25 @@ int main()
 	
 
 	sf::Texture tileSet;
+	sf::Texture enemyTexture;
+
 	if(!(tileSet.loadFromFile("assets/blocks.png")))
 	{
 		tileSet.loadFromFile("../assets/blocks.png");
+	}
+	if (!(enemyTexture.loadFromFile("assets/mario.png")))
+	{
+		enemyTexture.loadFromFile("../assets/mario.png");
 	}
 
 	float currentFrame = 0;
 	
 	sf::Sprite tile(tileSet);
 	my::PLAYER p(t, TileMap);
+
+	other::ENEMY enemy(enemyTexture, TileMap);
+	enemy.set(enemyTexture, 150, 200);
+
 
 	sf::Clock clock;
 
@@ -96,8 +111,23 @@ int main()
 		}
 
 		p.update(time);
+		enemy.update(time); 
 
-		if (p.getRectLeft() > 300 && p.getRectLeft() < 980)
+
+		if (p.getRect().intersects(enemy.getRect()))
+		{
+			if (enemy.getLife()) {
+				if (p.getY() > 0) {
+					enemy.setX(0);
+					p.setY(-0.2);
+					enemy.setLife(false);
+				}
+				else p.getSprite().setColor(sf::Color::Red);
+			}
+		}
+
+
+		if (p.getRectLeft() > 300)
 		{
 			p.setOffsetX(p.getRectLeft() - 300);
 		}
@@ -116,12 +146,12 @@ int main()
 
 				if (TileMap.TileMap[i][j] == 'B')
 				{
-					tile.setTextureRect((sf::IntRect(32, 0, 32, 32)));
+					tile.setTextureRect((sf::IntRect(0, 80, 32, 32)));
 				}
 
 				if (TileMap.TileMap[i][j] == '0')
 				{
-					tile.setTextureRect((sf::IntRect(64, 0, 32, 32)));
+					tile.setTextureRect((sf::IntRect(240, 80, 32, 32)));
 				}
 
 
@@ -135,6 +165,7 @@ int main()
 			}
 
 		window.draw(p.getSprite());
+		window.draw(enemy.getSprite());
 		window.display();
 	}
 

@@ -20,6 +20,7 @@ link_directories("ext/SFML/lib/")
 
 add_executable("${PROJECT_NAME}" main.cpp
 				"inc/PLAYER.hpp"
+				"inc/Enemy.h"
 				"inc/MAP.hpp"
 				"src/PLAYER.cpp")											
 target_link_libraries("${PROJECT_NAME}" 

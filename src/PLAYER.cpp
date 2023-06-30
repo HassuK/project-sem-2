@@ -11,14 +11,14 @@ namespace my {
 	PLAYER::PLAYER(sf::Texture& image, Globals& map)
 	{
 		m_sprite.setTexture(image);
-		m_rect = sf::FloatRect(7 * 32, 9 * 32, 40, 50);
+		m_rect = sf::FloatRect(7 *32, 9*32 , 40, 50);
 		m_x = m_y = 0.1;
 		currentFrame = 0;
 		m_map = &map;
 	}
 
 
-	void PLAYER::update(float time)
+	 void PLAYER::update(float time)
 	{
 		m_rect.left += m_x * time;
 		Collision(0);
@@ -38,11 +38,11 @@ namespace my {
 				currentFrame -= 6;
 			}
 			if (m_x > 0) {
-				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame), 50, 40, 50));
+				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame), 244, 40, 50));
 			}
 
 			if (m_x < 0) {
-				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame) + 40, 50, -40, 50));
+				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame) + 40, 244, -40, 50));
 			}
 			f = false;
 		}
@@ -53,10 +53,10 @@ namespace my {
 				currentFrame -= 3;
 			}
 			if (direction) {
-				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame), 0, 40, 50));
+				m_sprite.setTextureRect(sf::IntRect(44 * int(currentFrame), 190, 40, 50));
 			}
 			if (!direction) {
-				m_sprite.setTextureRect(sf::IntRect(40 * int(currentFrame) + 40, 0, -40, 50));
+				m_sprite.setTextureRect(sf::IntRect(44 * int(currentFrame) + 44, 190, -40, 50));
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace my {
 		for (int i = m_rect.top / 32; i < (m_rect.top + m_rect.height) / 32; i++)
 			for (int j = m_rect.left / 32; j < (m_rect.left + m_rect.width) / 32; j++)
 			{
-				if ((m_map->TileMap[i][j] == 'B') || (m_map->TileMap[i][j] == 'Z'))
+				if ((m_map->TileMap[i][j] == 'r') || (m_map->TileMap[i][j] == 't') || (m_map->TileMap[i][j] == 'P') || (m_map->TileMap[i][j] == 'k') || (m_map->TileMap[i][j] == '0'))
 				{
 					if ((m_x > 0) && (dir == 0)) {
 						m_rect.left = j * 32 - m_rect.width;

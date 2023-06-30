@@ -4,10 +4,11 @@
 
 
 
+
 namespace my {
 	class PLAYER {
 
-	private:
+	protected:
 		float m_x, m_y;
 		sf::FloatRect m_rect;
 		sf::Sprite m_sprite;
@@ -22,7 +23,7 @@ namespace my {
 		bool f, direction;
 
 	
-
+		PLAYER() = default;
 		PLAYER(sf::Texture& image, Globals& map);
 		
 		void setOffsetX(float offsetx) {
@@ -41,15 +42,15 @@ namespace my {
 			return m_offsety;
 		}
 
-		void setX(float dx) {
+		virtual	void setX(float dx) {
 			m_x = dx;
 		}
 
-		void setY(float dy) {
+		virtual void setY(float dy) {
 			m_y = dy;
 		}
 
-		void update(float time);
+		virtual void update(float time);
 		
 
 		double getRectLeft() {
@@ -60,13 +61,27 @@ namespace my {
 			return m_rect.top;
 		}
 
-		void Collision(int dir);
+		virtual float getX() {
+			return m_x;
+		}
+
+		virtual float getY() {
+			return m_y;
+		}
+
+		virtual void Collision(int dir);
 
 		sf::Sprite getSprite() {
 			return m_sprite;
 		}
+
+		virtual sf::FloatRect getRect() {
+			return m_rect;
+		}
 		
-		~PLAYER() {};
+
+		virtual ~PLAYER() {};
 	};
 	
+
 }
