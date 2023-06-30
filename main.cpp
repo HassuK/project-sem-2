@@ -2,10 +2,15 @@
 #include <SFML/Graphics.hpp>
 #include <PLAYER.hpp>
 #include <MAP.hpp>
+#include "logger.h"
 
 
 int main()
 {
+	logis::Logger::SetLogFlags(logis::Logger::GetLogFlags() | logis::LogFlags::File);
+	logis::Logger::SetLogFilePath("log.txt");
+
+
 	Globals TileMap = {
 
 	   "B                                      B",
@@ -26,7 +31,7 @@ int main()
 
 	int stayflag = 0;
 
-	sf::RenderWindow window(sf::VideoMode(600, 400), "Test!");
+	sf::RenderWindow window(sf::VideoMode(600, 400), "Let's play!");
 
 	sf::Texture t;
 	if (!(t.loadFromFile("assets/fang.png"))) 
@@ -47,6 +52,8 @@ int main()
 	my::PLAYER p(t, TileMap);
 
 	sf::Clock clock;
+
+	logis::Logger::Info("Game started.");
 
 	while (window.isOpen())
 	{
@@ -87,6 +94,8 @@ int main()
 				p.setY(-0.35);
 				p.onGround = false; 
 				stayflag = 1; 
+				logis::Logger::Debug("Player pressed '^'.");
+				
 			}
 		}
 
@@ -138,6 +147,6 @@ int main()
 		window.display();
 	}
 
-
+	logis::Logger::Info("Game closed.");
 	return 0;
 }

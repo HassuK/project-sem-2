@@ -21,7 +21,9 @@ link_directories("ext/SFML/lib/")
 add_executable("${PROJECT_NAME}" main.cpp
 				"inc/PLAYER.hpp"
 				"inc/MAP.hpp"
-				"src/PLAYER.cpp")											
+				"src/PLAYER.cpp"
+				"src/logger.cpp"
+				"inc/logger.h")											
 target_link_libraries("${PROJECT_NAME}" 
 					    debug sfml-graphics-s-d 
 						debug sfml-window-s-d

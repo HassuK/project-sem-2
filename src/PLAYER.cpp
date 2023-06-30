@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <MAP.hpp>
 #include <PLAYER.hpp>
+#include "logger.h"
 
 
 
@@ -94,6 +95,7 @@ namespace my {
 				if (m_map->TileMap[i][j] == '0')
 				{
 					m_map->TileMap[i][j] = ' ';
+					logis::Logger::Info("Apple collected.");
 				}
 
 			}
