@@ -9,8 +9,7 @@ int main()
 {
 	logis::Logger::SetLogFlags(logis::Logger::GetLogFlags() | logis::LogFlags::File);
 	logis::Logger::SetLogFilePath("log.txt");
-
-
+	bool wrongtile = false;
 	Globals TileMap = {
 
 	   "B                                      B",
@@ -27,7 +26,43 @@ int main()
 	   "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
 
 	};
+	
+
+
 	const int W = 40;
+
+	try {
+		for (int i = 0; i < H; i++)
+		{
+			for (int j = 0; j < W; j++)
+			{
+				if ((i < 0) || (j < 0))
+					throw std::range_error("Map out of range");
+
+
+				if ((TileMap.TileMap[i][j] != 'B') && (TileMap.TileMap[i][j] != 'Z') && (TileMap.TileMap[i][j] != '0') && (TileMap.TileMap[i][j] != ' '))
+					wrongtile = true;
+			}
+		}
+
+		if (wrongtile == true) {
+			throw std::invalid_argument("Wrong block.");
+		}
+
+
+	}
+	catch (const std::invalid_argument& e) {
+		logis::Logger::Error("Invalid argumernt. Unknown block detected.");
+		return 0;
+	}
+	catch (const std::range_error& e) {
+		logis::Logger::Error("Range error. Map out of range.");
+		return 0;
+	}
+
+
+
+
 
 	int stayflag = 0;
 
@@ -52,6 +87,10 @@ int main()
 	my::PLAYER p(t, TileMap);
 
 	sf::Clock clock;
+
+
+	
+
 
 	logis::Logger::Info("Game started.");
 
