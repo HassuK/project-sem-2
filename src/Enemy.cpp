@@ -23,7 +23,7 @@ namespace other {
 		currentFrame += time * 0.005;
 		if (currentFrame > 2) currentFrame -= 2;
 
-		m_sprite.setTextureRect(sf::IntRect(1 * int(currentFrame), 0, 32, 32));
+		m_sprite.setTextureRect(sf::IntRect(1 * static_cast<int>(currentFrame), 0, 32, 32));
 		if (!life) {
 			m_sprite.setTextureRect(sf::IntRect(32, 0, 32, 32));
 		}

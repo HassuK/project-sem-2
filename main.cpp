@@ -7,6 +7,7 @@
 #include <iostream>
 
 
+
 int main()
 {
 	logis::Logger::SetLogFlags(logis::Logger::GetLogFlags() | logis::LogFlags::File);
@@ -19,12 +20,12 @@ int main()
 	   "B                                0     B",
 	   "B                                0     B",
 	   "B                                0     B",
-	   "B         0000                BBBB     B",
-	   "B                                B     B",
+	   "B         0000                 BBB     B",
+	   "B                             B  B     B",
 	   "BBB                              B     B",
-	   "B              BB                BB    B",
-	   "B              BB                      B",
-	   "B    B         BB          BB          B",
+	   "B               B                BB    B",
+	   "B              BB          BB          B",
+	   "B    B         BB          BB    BB    B",
 	   "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
 
 	};
@@ -68,7 +69,7 @@ int main()
 
 	int stayflag = 0;
 
-	sf::RenderWindow window(sf::VideoMode(600, 400), "Let's play!");
+	sf::RenderWindow window(sf::VideoMode(600, 600), "Let's play!");
 
 	sf::Texture t;
 	if (!(t.loadFromFile("assets/steve.png"))) 
@@ -88,15 +89,18 @@ int main()
 		enemyTexture.loadFromFile("../assets/slime.png");
 	}
 
+	std::vector<other::ENEMY*> enemies;
 
-	other::ENEMY enemy(enemyTexture, TileMap, 10 * 32, 10 * 32);
+	enemies.push_back(&other::ENEMY(enemyTexture, TileMap, 10 * 32, 10 * 32));
+	enemies.push_back(&other::ENEMY(enemyTexture, TileMap, 17 * 32, 10 * 32));
+	enemies.push_back(&other::ENEMY(enemyTexture, TileMap, 37 * 32, 10 * 32));
+
 	float currentFrame = 0;
 	
 	sf::Sprite tile(tileSet);
 	my::PLAYER p(t, TileMap);
 
 	sf::Clock clock;
-
 
 	
 
@@ -153,29 +157,31 @@ int main()
 		}
 
 		p.update(time);
-		enemy.update(time);
+		for (size_t i = 0; i < enemies.size(); i++) {
+			enemies[i]->update(time);
 
-		if (p.getRect().intersects(enemy.getRect()))
-		{
-			if (enemy.getLife()) {
-				if (p.getY() > 0) {
-					enemy.setX(0);
-					p.setY(-0.2);
-					enemy.setLife(false);
+
+			if (p.getRect().intersects(enemies[i]->getRect()))
+			{
+				if (enemies[i]->getLife()) {
+					if (p.getY() > 0) {
+						enemies[i]->setX(0);
+						p.setY(-0.2);
+						enemies[i]->setLife(false);
+					}
+					else window.close();
 				}
-				else p.getSprite().setColor(sf::Color::Blue);
 			}
+
+			if (p.getRectLeft() > 200)
+			{
+				p.setOffsetX(p.getRectLeft() - 200);
+				enemies[i]->setOffsetX(p.getRectLeft() - 200);
+			}
+			p.setOffsetY(p.getRectTop() - 200);
+			enemies[i]->setOffsetY(p.getRectTop() - 200);
+
 		}
-
-		if (p.getRectLeft() > 200)
-		{
-			p.setOffsetX(p.getRectLeft() - 200);
-			enemy.setOffsetX(p.getRectLeft() - 200);
-		}
-		p.setOffsetY(p.getRectTop() - 200);
-		enemy.setOffsetY(p.getRectTop() - 200);
-
-
 		window.clear(sf::Color(173, 216, 230));
 
 
@@ -208,10 +214,13 @@ int main()
 			}
 
 		window.draw(p.getSprite());
-		window.draw(enemy.getSprite());
+		for (size_t i=0;i<enemies.size();i++)
+		{
+			window.draw(enemies[i]->getSprite());
+		}
 		window.display();
 	}
-
+	enemies.clear();
 	logis::Logger::Info("Game closed.");
 	return 0;
 }
