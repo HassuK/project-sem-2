@@ -3,6 +3,8 @@
 #include <PLAYER.hpp>
 #include <MAP.hpp>
 #include "logger.h"
+#include "Enemy.h"
+#include <iostream>
 
 
 int main()
@@ -80,7 +82,14 @@ int main()
 	{
 		tileSet.loadFromFile("../assets/blocks.png");
 	}
+	sf::Texture enemyTexture;
+	if (!(enemyTexture.loadFromFile("assets/mario.png")))
+	{
+		enemyTexture.loadFromFile("../assets/mario.png");
+	}
 
+
+	other::ENEMY enemy(enemyTexture, TileMap, 10 * 32, 10 * 32);
 	float currentFrame = 0;
 	
 	sf::Sprite tile(tileSet);
@@ -144,14 +153,30 @@ int main()
 		}
 
 		p.update(time);
+		enemy.update(time);
 
-		if (p.getRectLeft() > 300 && p.getRectLeft() < 980)
+		if (p.getRect().intersects(enemy.getRect()))
 		{
-			p.setOffsetX(p.getRectLeft() - 300);
+			if (enemy.getLife()) {
+				if (p.getY() > 0) {
+					enemy.setX(0);
+					p.setY(-0.2);
+					enemy.setLife(false);
+				}
+				else p.getSprite().setColor(sf::Color::Blue);
+			}
+		}
+
+		if (p.getRectLeft() > 200)
+		{
+			p.setOffsetX(p.getRectLeft() - 200);
+			enemy.setOffsetX(p.getRectLeft() - 200);
 		}
 		p.setOffsetY(p.getRectTop() - 200);
+		enemy.setOffsetY(p.getRectTop() - 200);
 
-		window.clear(sf::Color(200, 140, 255));
+
+		window.clear(sf::Color(173, 216, 230));
 
 
 		for (int i = 0; i < H; i++)
@@ -183,6 +208,7 @@ int main()
 			}
 
 		window.draw(p.getSprite());
+		window.draw(enemy.getSprite());
 		window.display();
 	}
 

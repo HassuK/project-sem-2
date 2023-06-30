@@ -4,6 +4,7 @@
 
 
 
+
 namespace my {
 	class PLAYER {
 
@@ -16,15 +17,15 @@ namespace my {
 
 	public:
 
-	
+
 		bool onGround;
 		float currentFrame;
 		bool f, direction;
 
-	
 
+		PLAYER() = default;
 		PLAYER(sf::Texture& image, Globals& map);
-		
+
 		void setOffsetX(float offsetx) {
 			m_offsetx = offsetx;
 		}
@@ -50,7 +51,7 @@ namespace my {
 		}
 
 		void update(float time);
-		
+
 
 		double getRectLeft() {
 			return m_rect.left;
@@ -60,13 +61,27 @@ namespace my {
 			return m_rect.top;
 		}
 
+		float getX() {
+			return m_x;
+		}
+
+		float getY() {
+			return m_y;
+		}
+
 		void Collision(int dir);
 
 		sf::Sprite getSprite() {
 			return m_sprite;
 		}
-		
+
+		sf::FloatRect getRect() {
+			return m_rect;
+		}
+
+
 		~PLAYER() {};
 	};
-	
+
+
 }
