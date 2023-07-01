@@ -10,7 +10,7 @@ namespace other {
 		m_sprite.setTexture(image);
 		m_rect = sf::FloatRect(x, y, 32, 32);
 		m_x = m_y = 0.1;
-		currentFrame = 0;
+		m_currentFrame = 0;
 		m_map = &map;
 		life = true;
 	}
@@ -20,10 +20,10 @@ namespace other {
 
 		Collision();
 
-		currentFrame += time * 0.005;
-		if (currentFrame > 2) currentFrame -= 2;
+		m_currentFrame += time * 0.005;
+		if (m_currentFrame > 2) m_currentFrame -= 2;
 
-		m_sprite.setTextureRect(sf::IntRect(1 * int(currentFrame), 0, 32, 32));
+		m_sprite.setTextureRect(sf::IntRect(1 * static_cast<int>(m_currentFrame), 0, 32, 32));
 		if (!life) {
 			m_sprite.setTextureRect(sf::IntRect(32, 0, 32, 32));
 		}

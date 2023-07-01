@@ -8,7 +8,7 @@
 namespace my {
 	class PLAYER {
 
-	private:
+	protected:
 		float m_x, m_y;
 		sf::FloatRect m_rect;
 		sf::Sprite m_sprite;
@@ -16,7 +16,6 @@ namespace my {
 		Globals* m_map;
 
 	public:
-
 
 		bool onGround;
 		float currentFrame;
@@ -26,61 +25,61 @@ namespace my {
 		PLAYER() = default;
 		PLAYER(sf::Texture& image, Globals& map);
 
-		void setOffsetX(float offsetx) {
+		virtual	void setOffsetX(float offsetx) {
 			m_offsetx = offsetx;
 		}
 
-		void setOffsetY(float offsety) {
+		virtual	void setOffsetY(float offsety) {
 			m_offsety = offsety;
 		}
 
-		float getOffetX() {
+		virtual	float getOffetX() {
 			return m_offsetx;
 		}
 
-		float getOffetY() {
+		virtual	float getOffetY() {
 			return m_offsety;
 		}
 
-		void setX(float dx) {
+		virtual	void setX(float dx) {
 			m_x = dx;
 		}
 
-		void setY(float dy) {
+		virtual	void setY(float dy) {
 			m_y = dy;
 		}
 
-		void update(float time);
+		virtual	void update(float time);
 
 
-		double getRectLeft() {
+		virtual	double getRectLeft() {
 			return m_rect.left;
 		}
 
-		double getRectTop() {
+		virtual	double getRectTop() {
 			return m_rect.top;
 		}
 
-		float getX() {
+		virtual	float getX() {
 			return m_x;
 		}
 
-		float getY() {
+		virtual	float getY() {
 			return m_y;
 		}
 
 		void Collision(int dir);
 
-		sf::Sprite getSprite() {
+		virtual	sf::Sprite getSprite() {
 			return m_sprite;
 		}
 
-		sf::FloatRect getRect() {
+		virtual	sf::FloatRect getRect() {
 			return m_rect;
 		}
 
 
-		~PLAYER() {};
+		virtual ~PLAYER() {};
 	};
 
 

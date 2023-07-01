@@ -70,7 +70,7 @@ int main()
 
 	int stayflag = 0;
 
-	sf::RenderWindow window(sf::VideoMode(600, 400), "Let's play!");
+	sf::RenderWindow window(sf::VideoMode(600, 600), "Let's play!");
 
 	sf::Texture t;
 	if (!(t.loadFromFile("assets/steve.png"))) 
@@ -91,14 +91,18 @@ int main()
 	}
 
 
-	other::ENEMY enemy(enemyTexture, TileMap, 14 * 32, 10 * 32);
-	float currentFrame = 0;
-	
 	sf::Sprite tile(tileSet);
 	my::PLAYER p(t, TileMap);
 
-	sf::Clock clock;
+	std::vector<other::ENEMY*> enemies;
 
+	enemies.push_back(&other::ENEMY(enemyTexture, TileMap, 14 * 32, 10 * 32));
+
+
+	
+	
+
+	sf::Clock clock;
 
 	
 
@@ -155,17 +159,20 @@ int main()
 		}
 
 		p.update(time);
-		enemy.update(time);
+		for (size_t i = 0; i < enemies.size(); i++) {
+			enemies[i]->ENEMY::update(time);
 
-		if (p.getRect().intersects(enemy.getRect()))
-		{
-			if (enemy.getLife()) {
-				if (p.getY() > 0) {
-					enemy.setX(0);
-					p.setY(-0.2);
-					enemy.setLife(false);
+
+			if (p.getRect().intersects(enemies[i]->ENEMY::getRect()))
+			{
+				if (enemies[i]->ENEMY::getLife()) {
+					if (p.getY() > 0) {
+						enemies[i]->ENEMY::setX(0);
+						p.setY(-0.2);
+						enemies[i]->ENEMY::setLife(false);
+					}
+					else window.close();
 				}
-				else p.getSprite().setColor(sf::Color::Blue);
 			}
 		}
 
@@ -177,7 +184,7 @@ int main()
 		p.setOffsetY(p.getRectTop() - 216);
 		enemy.setOffsetY(p.getRectTop() - 216);
 
-
+		}
 		window.clear(sf::Color(173, 216, 230));
 
 
@@ -215,10 +222,13 @@ int main()
 			}
 
 		window.draw(p.getSprite());
-		window.draw(enemy.getSprite());
+		for (size_t i = 0; i < enemies.size(); i++)
+		{
+			window.draw(enemies[i]->ENEMY::getSprite());
+		}
 		window.display();
 	}
-
+	enemies.clear();
 	logis::Logger::Info("Game closed.");
 	return 0;
 }
