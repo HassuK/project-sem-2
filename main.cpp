@@ -103,6 +103,7 @@ int main()
 	std::vector<other::ENEMY*> enemies;
 
 	enemies.push_back(&other::ENEMY(enemyTexture, TileMap, 14 * 32, 10 * 32));
+	enemies.push_back(&other::ENEMY(enemyTexture, TileMap, 24 * 32, 10 * 32));
 
 	sf::Clock clock;
 
