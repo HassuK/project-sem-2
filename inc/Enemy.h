@@ -5,10 +5,15 @@
 
 namespace other {
 
-	class ENEMY : public my::PLAYER{
+	class ENEMY {
 
 	private:
-		float m_currentFrame = 0;	
+		float m_x, m_y;
+		sf::FloatRect m_rect;
+		sf::Sprite m_sprite;
+		float currentFrame = 0;
+		float m_offsetx = 0, m_offsety = 0;
+		Globals* m_map;
 		bool life;
 
 
@@ -19,35 +24,35 @@ namespace other {
 
 		ENEMY(sf::Texture& image, Globals& map, int x, int y);
 
-		void setOffsetX(float offsetx) override {
+		void setOffsetX(float offsetx) {
 			m_offsetx = offsetx;
 		}
 
-		void setOffsetY(float offsety) override {
+		void setOffsetY(float offsety) {
 			m_offsety = offsety;
 		}
 
-		float getOffetX() override {
+		float getOffetX() {
 			return m_offsetx;
 		}
 
-		float getOffetY() override {
+		float getOffetY() {
 			return m_offsety;
 		}
 
-		double getRectLeft() override {
+		double getRectLeft() {
 			return m_rect.left;
 		}
 
-		double getRectTop() override {
+		double getRectTop() {
 			return m_rect.top;
 		}
 
-		void update(float time) override;
+		void update(float time);
 
 		void Collision();
 
-		sf::FloatRect getRect() override {
+		sf::FloatRect getRect()  {
 			return m_rect;
 		}
 
@@ -55,19 +60,19 @@ namespace other {
 			return life;
 		}
 
-		float getX() override {
+		float getX() {
 			return m_x;
 		}
 
-		float getY() override {
+		float getY()  {
 			return m_y;
 		}
 
-		void setX(float dx) override {
+		void setX(float dx)  {
 			m_x = dx;
 		}
 
-		void setY(float dy) override {
+		void setY(float dy)  {
 			m_y = dy;
 		}
 
@@ -76,11 +81,11 @@ namespace other {
 			logis::Logger::Info("You stomped Slimey! :(");
 		}
 
-		sf::Sprite getSprite() override {
+		sf::Sprite getSprite() {
 			return m_sprite;
 		}
 
-	//	~ENEMY() {};
+		~ENEMY() {};
 
 
 	};
