@@ -14,26 +14,36 @@ int main()
 	bool wrongtile = false;
 	Globals TileMap = {
 
-	   "     B                                      B                    ",
-	   "     B                                BBBBBBB                    ",
-	   "     B                                0     B                    ",
-	   "     B                                0     B                    ",
-	   "     B                                0     B                    ",
-	   "     B         0000                BBBB     B                    ",
-	   "     B                                B     B                    ",
-	   "     BBB                              B     B                    ",
-	   "     B              BB                BB    B                    ",
-	   "     B              BB                      B                    ",
-	   "     B    B         BB          BB          B                    ",
-	   "ZZZZZDZZZZDZZZZZZZZZDDZZZZZZZZZZDDZZZZZZZZZZDZZZZZZZZZZZZZZZZZZZZ",
-	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
-	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "     B                                      B          ",
+	   "     B                                BBBBBBB          ",
+	   "     B                                0     B          ",
+	   "     B                                0     B          ",
+	   "     B                                0     B          ",
+	   "     B         0000                 BBB     B          ",
+	   "     B                             B  B     B          ",
+	   "     BBB                              B     B          ",
+	   "     B               B                BB    B          ",
+	   "     B              BB          BB          B          ",
+	   "     B    B         BB          BB    BB    B          ",
+	   "ZZZZZDZZZZDZZZZZZZZZDDZZZZZZZZZZDDZZZZDDZZZZDZZZZZZZZZZ",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 	};
 	
 
 
-	const int W = 65;
+	const int W = 55;
 
 	try {
 		for (int i = 0; i < H; i++)
@@ -65,12 +75,9 @@ int main()
 	}
 
 
-
-
-
 	int stayflag = 0;
 
-	sf::RenderWindow window(sf::VideoMode(600, 400), "Let's play!");
+	sf::RenderWindow window(sf::VideoMode(600, 600), "Let's play!");
 
 	sf::Texture t;
 	if (!(t.loadFromFile("assets/steve.png"))) 
@@ -90,18 +97,14 @@ int main()
 		enemyTexture.loadFromFile("../assets/slime.png");
 	}
 
-
-	other::ENEMY enemy(enemyTexture, TileMap, 14 * 32, 10 * 32);
-	float currentFrame = 0;
-	
 	sf::Sprite tile(tileSet);
 	my::PLAYER p(t, TileMap);
 
+	std::vector<other::ENEMY*> enemies;
+
+	enemies.push_back(&other::ENEMY(enemyTexture, TileMap, 14 * 32, 10 * 32));
+
 	sf::Clock clock;
-
-
-	
-
 
 	logis::Logger::Info("Game started.");
 
@@ -141,10 +144,10 @@ int main()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
 			if (p.onGround) { 
-				p.setY(-0.32);
+				p.setY(-0.35);
 				p.onGround = false; 
 				stayflag = 1; 
-				logis::Logger::Debug("Player pressed '^' being on the ground.");
+				logis::Logger::Debug("Player jumped.");
 				
 			}
 		}
@@ -155,29 +158,35 @@ int main()
 		}
 
 		p.update(time);
-		enemy.update(time);
+		for (size_t i = 0; i < enemies.size(); i++) {
+			enemies[i]->ENEMY::update(time);
 
-		if (p.getRect().intersects(enemy.getRect()))
-		{
-			if (enemy.getLife()) {
-				if (p.getY() > 0) {
-					enemy.setX(0);
-					p.setY(-0.2);
-					enemy.setLife(false);
+
+			if (p.getRect().intersects(enemies[i]->ENEMY::getRect()))
+			{
+				if (enemies[i]->ENEMY::getLife()) {
+					if (p.getY() > 0) {
+						enemies[i]->ENEMY::setX(0);
+						p.setY(-0.2);
+						enemies[i]->ENEMY::setLife(false);
+						
+					}
+					else {
+						window.close();
+						logis::Logger::Info("You died.");
+					}
 				}
-				else p.getSprite().setColor(sf::Color::Blue);
 			}
+
+			if (p.getRectLeft() > 200)
+			{
+				p.setOffsetX(p.getRectLeft() - 200);
+				enemies[i]->ENEMY::setOffsetX(p.getRectLeft() - 200);
+			}
+			p.setOffsetY(p.getRectTop() - 200);
+			enemies[i]->ENEMY::setOffsetY(p.getRectTop() - 200);
+
 		}
-
-		if (p.getRectLeft() > 200)
-		{
-			p.setOffsetX(p.getRectLeft() - 200);
-			enemy.setOffsetX(p.getRectLeft() - 200);
-		}
-		p.setOffsetY(p.getRectTop() - 216);
-		enemy.setOffsetY(p.getRectTop() - 216);
-
-
 		window.clear(sf::Color(173, 216, 230));
 
 
@@ -194,14 +203,13 @@ int main()
 					tile.setTextureRect((sf::IntRect(32, 0, 32, 32)));
 				}
 
-				if (TileMap.TileMap[i][j] == 'D')
-				{
-					tile.setTextureRect((sf::IntRect(96, 0, 32, 32)));
-				}
-
 				if (TileMap.TileMap[i][j] == '0')
 				{
 					tile.setTextureRect((sf::IntRect(64, 0, 32, 32)));
+				}
+				if (TileMap.TileMap[i][j] == 'D')
+				{
+					tile.setTextureRect((sf::IntRect(96, 0, 32, 32)));
 				}
 
 
@@ -215,10 +223,13 @@ int main()
 			}
 
 		window.draw(p.getSprite());
-		window.draw(enemy.getSprite());
+		for (size_t i = 0; i < enemies.size(); i++)
+		{
+			window.draw(enemies[i]->ENEMY::getSprite());
+		}
 		window.display();
 	}
-
+	enemies.clear();
 	logis::Logger::Info("Game closed.");
 	return 0;
 }
