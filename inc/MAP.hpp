@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-const int H = 12;
+const int H = 15;
 
 struct Globals
 {
