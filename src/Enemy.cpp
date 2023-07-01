@@ -38,7 +38,7 @@ namespace other {
 
 		for (int i = m_rect.top / 32; i < (m_rect.top + m_rect.height) / 32; i++)
 			for (int j = m_rect.left / 32; j < (m_rect.left + m_rect.width) / 32; j++)
-				if ((m_map->TileMap[i][j] == 'Z') || (m_map->TileMap[i][j] == 'B'))
+				if ((m_map->TileMap[i][j] == 'Z') || (m_map->TileMap[i][j] == 'B') || (m_map->TileMap[i][j] == 'D'))
 				{
 					if (m_x > 0)
 					{

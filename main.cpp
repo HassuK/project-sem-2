@@ -14,24 +14,26 @@ int main()
 	bool wrongtile = false;
 	Globals TileMap = {
 
-	   "B                                      B",
-	   "B                                BBBBBBB",
-	   "B                                0     B",
-	   "B                                0     B",
-	   "B                                0     B",
-	   "B         0000                BBBB     B",
-	   "B                                B     B",
-	   "BBB                              B     B",
-	   "B              BB                BB    B",
-	   "B              BB                      B",
-	   "B    B         BB          BB          B",
-	   "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",
-
+	   "     B                                      B                    ",
+	   "     B                                BBBBBBB                    ",
+	   "     B                                0     B                    ",
+	   "     B                                0     B                    ",
+	   "     B                                0     B                    ",
+	   "     B         0000                BBBB     B                    ",
+	   "     B                                B     B                    ",
+	   "     BBB                              B     B                    ",
+	   "     B              BB                BB    B                    ",
+	   "     B              BB                      B                    ",
+	   "     B    B         BB          BB          B                    ",
+	   "ZZZZZDZZZZDZZZZZZZZZDDZZZZZZZZZZDDZZZZZZZZZZDZZZZZZZZZZZZZZZZZZZZ",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+	   "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
 	};
 	
 
 
-	const int W = 40;
+	const int W = 65;
 
 	try {
 		for (int i = 0; i < H; i++)
@@ -42,7 +44,7 @@ int main()
 					throw std::range_error("Map out of range");
 
 
-				if ((TileMap.TileMap[i][j] != 'B') && (TileMap.TileMap[i][j] != 'Z') && (TileMap.TileMap[i][j] != '0') && (TileMap.TileMap[i][j] != ' '))
+				if ((TileMap.TileMap[i][j] != 'B') && (TileMap.TileMap[i][j] != 'Z') && (TileMap.TileMap[i][j] != '0') && (TileMap.TileMap[i][j] != ' ') && (TileMap.TileMap[i][j] != 'D'))
 					wrongtile = true;
 			}
 		}
@@ -89,7 +91,7 @@ int main()
 	}
 
 
-	other::ENEMY enemy(enemyTexture, TileMap, 10 * 32, 10 * 32);
+	other::ENEMY enemy(enemyTexture, TileMap, 14 * 32, 10 * 32);
 	float currentFrame = 0;
 	
 	sf::Sprite tile(tileSet);
@@ -139,10 +141,10 @@ int main()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
 			if (p.onGround) { 
-				p.setY(-0.35);
+				p.setY(-0.32);
 				p.onGround = false; 
 				stayflag = 1; 
-				logis::Logger::Debug("Player pressed '^'.");
+				logis::Logger::Debug("Player pressed '^' being on the ground.");
 				
 			}
 		}
@@ -172,8 +174,8 @@ int main()
 			p.setOffsetX(p.getRectLeft() - 200);
 			enemy.setOffsetX(p.getRectLeft() - 200);
 		}
-		p.setOffsetY(p.getRectTop() - 200);
-		enemy.setOffsetY(p.getRectTop() - 200);
+		p.setOffsetY(p.getRectTop() - 216);
+		enemy.setOffsetY(p.getRectTop() - 216);
 
 
 		window.clear(sf::Color(173, 216, 230));
@@ -190,6 +192,11 @@ int main()
 				if (TileMap.TileMap[i][j] == 'B')
 				{
 					tile.setTextureRect((sf::IntRect(32, 0, 32, 32)));
+				}
+
+				if (TileMap.TileMap[i][j] == 'D')
+				{
+					tile.setTextureRect((sf::IntRect(96, 0, 32, 32)));
 				}
 
 				if (TileMap.TileMap[i][j] == '0')
